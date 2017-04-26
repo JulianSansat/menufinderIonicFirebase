@@ -14,7 +14,13 @@ export class EstablishmentService{
             return this.http.get(this.establishmentsUrl)
                                             .map((response: Response) => <Establishment[]>response.json())
                                             .catch(this.handleError);
-        }
+    }
+
+    findById(id){
+      return this.http.get(this.establishmentsUrl + "/" + id)
+            .map(res => res.json())
+            .toPromise();
+    }
 
     private handleError (error: Response | any) {
         // In a real world app, we might use a remote logging infrastructure

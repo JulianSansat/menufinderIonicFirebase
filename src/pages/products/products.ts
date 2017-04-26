@@ -3,6 +3,7 @@ import { Observable } from 'rxjs/Rx';
 import {Product} from '../../app/models/product';
 import { NavController } from 'ionic-angular';
 import {ProductService} from '../../app/services/product.service';
+import { EstablishmentDetailPage } from '../establishment-detail/establishment-detail'
 
 @Component({
   selector: 'page-products',
@@ -15,7 +16,7 @@ export class ProductsPage {
   mode = "Observable";
   constructor(
     public navCtrl: NavController, 
-    private productService:ProductService
+    private productService:ProductService,
   ) {}
 
   ngOnInit(){
@@ -30,4 +31,8 @@ export class ProductsPage {
             error => this.errorMessage = <any>error
           );
     }
+
+  goToShow(product: Product): void {
+      this.navCtrl.push(EstablishmentDetailPage, product.establishment_id);
+  }
 }
