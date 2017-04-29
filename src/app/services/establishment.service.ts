@@ -6,7 +6,7 @@ import {Establishment} from '../models/establishment';
 
 @Injectable()
 export class EstablishmentService{
-    private establishmentsUrl = 'https://sheltered-beyond-67853.herokuapp.com/establishment';
+    private establishmentsUrl = 'http://localhost:3000/establishment';
 
     constructor(private http: Http){}
 
