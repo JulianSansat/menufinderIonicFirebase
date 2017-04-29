@@ -12,6 +12,9 @@ import { EstablishmentService } from './services/establishment.service';
 import { ProductService } from './services/product.service';
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
+import { AuthService } from '../providers/auth-service';
+import { LoginPage } from '../pages/login/login';
+import { RegisterPage } from '../pages/register/register';
 
 @NgModule({
   declarations: [
@@ -20,6 +23,8 @@ import { SplashScreen } from '@ionic-native/splash-screen';
     EstablishmentsPage,
     EstablishmentDetailPage,
     ProductsPage,
+    LoginPage,
+    RegisterPage,
     TabsPage
   ],
   imports: [
@@ -34,6 +39,8 @@ import { SplashScreen } from '@ionic-native/splash-screen';
     EstablishmentsPage,
     EstablishmentDetailPage,
     ProductsPage,
+    LoginPage,
+    RegisterPage,
     TabsPage
   ],
   providers: [
@@ -41,6 +48,7 @@ import { SplashScreen } from '@ionic-native/splash-screen';
     SplashScreen,
     EstablishmentService,
     ProductService,
+    AuthService,
     {provide: ErrorHandler, useClass: IonicErrorHandler}
   ]
 })
