@@ -6,7 +6,7 @@ import {Product} from '../models/product';
 
 @Injectable()
 export class ProductService{
-    private productsUrl = 'http://localhost:3000/products';
+    private productsUrl = 'https://sheltered-beyond-67853.herokuapp.com/products';
 
     constructor(private http: Http){}
 

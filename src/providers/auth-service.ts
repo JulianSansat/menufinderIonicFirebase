@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Http, Headers } from '@angular/http';
 import 'rxjs/add/operator/map';
 
-let apiUrl = 'http://localhost:3000/';
+let apiUrl = 'https://sheltered-beyond-67853.herokuapp.com/';
 
 @Injectable()
 export class AuthService{
@@ -17,7 +17,7 @@ export class AuthService{
           .subscribe(res => {
             resolve(res.json());
           }, (err) => {
-            reject(err);
+            console.log(err);
           });
     });
   }

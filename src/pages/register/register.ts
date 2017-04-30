@@ -10,7 +10,7 @@ import { ProductsPage } from '../products/products';
 export class RegisterPage {
 
   loading: any;
-  regData = { email:'', password:'', password_confirmation:'' };
+  regData = { name:'', email:'', password:'', password_confirmation:'' };
 
   constructor(public navCtrl: NavController, public navParams: NavParams, public authService: AuthService, public loadingCtrl: LoadingController, private toastCtrl: ToastController) {}
 
