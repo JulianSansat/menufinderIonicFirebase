@@ -3,6 +3,7 @@ import { NavController, LoadingController, ToastController } from 'ionic-angular
 import { AuthService } from '../../providers/auth-service';
 import { TabsPage } from '../tabs/tabs';
 import { RegisterPage } from '../register/register';
+import { Storage } from '@ionic/storage';
 
 @Component({
   selector: 'page-login',
@@ -11,17 +12,29 @@ import { RegisterPage } from '../register/register';
 export class LoginPage {
 
   loading: any;
-  loginData = { username:'', password:'' };
+  loginData = { email:'', password:'' };
   data: any;
 
-  constructor(public navCtrl: NavController, public authService: AuthService, public loadingCtrl: LoadingController, private toastCtrl: ToastController) {}
+  constructor(
+    public navCtrl: NavController, 
+    public authService: AuthService, 
+    public loadingCtrl: LoadingController, 
+    private toastCtrl: ToastController,
+    public storage: Storage
+    ) {}
 
   doLogin() {
     this.showLoader();
     this.authService.login(this.loginData).then((result) => {
       this.loading.dismiss();
       this.data = result;
-      localStorage.setItem('token', this.data.access_token);
+      this.storage.ready().then(() => {
+        this.storage.set('token', this.data.access_token);
+        console.log(this.data.access_token);
+        this.storage.get('token').then((val) => {
+         console.log(val);
+        })
+      });
       this.navCtrl.setRoot(TabsPage);
     }, (err) => {
       this.loading.dismiss();

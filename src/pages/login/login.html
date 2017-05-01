@@ -2,8 +2,8 @@
   <h2>Please, Login</h2>
   <form (submit)="doLogin()">
     <ion-item>
-      <ion-label stacked>Username</ion-label>
-      <ion-input [(ngModel)]="loginData.username" name="username" type="text" placeholder="Username" ></ion-input>
+      <ion-label stacked>Email</ion-label>
+      <ion-input [(ngModel)]="loginData.email" name="email" type="text" placeholder="Email" ></ion-input>
     </ion-item>
     <ion-item>
       <ion-label stacked>Password</ion-label>
@@ -15,6 +15,6 @@
   </form>
 
   <button ion-button block clear (click)="register()">
-    No have an account? Register Now
+    Dont´t have an account? Register Now
   </button>
 </ion-content>

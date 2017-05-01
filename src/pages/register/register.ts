@@ -10,7 +10,7 @@ import { ProductsPage } from '../products/products';
 export class RegisterPage {
 
   loading: any;
-  regData = { name:'', email:'', password:'', password_confirmation:'' };
+  regData = { email:'', password:'', password_confirmation:'' };
 
   constructor(public navCtrl: NavController, public navParams: NavParams, public authService: AuthService, public loadingCtrl: LoadingController, private toastCtrl: ToastController) {}
 
@@ -18,7 +18,7 @@ export class RegisterPage {
     this.showLoader();
     this.authService.register(this.regData).then((result) => {
       this.loading.dismiss();
-      this.navCtrl.push(ProductsPage);
+      this.navCtrl.setRoot(ProductsPage);
     }, (err) => {
       this.loading.dismiss();
       this.presentToast(err);
