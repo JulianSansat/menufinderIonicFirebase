@@ -1,53 +1,62 @@
 import { Injectable } from '@angular/core';
 import { Http, Headers } from '@angular/http';
+import { AuthProviders, AngularFireAuth, FirebaseAuthState, AuthMethods } from 'angularfire2';
 import 'rxjs/add/operator/map';
+import { Platform } from 'ionic-angular';
+import { Facebook } from '@ionic-native/facebook';
 
 let apiUrl = 'https://sheltered-beyond-67853.herokuapp.com/';
 
 @Injectable()
-export class AuthService{
-  constructor(public http:Http){}
+export class AuthService {
+  private authState: FirebaseAuthState;
 
-  login(credentials) {
-    return new Promise((resolve, reject) => {
-        let headers = new Headers();
-        headers.append('Content-Type', 'application/json');
-
-        this.http.post(apiUrl+'auth/sign_in', JSON.stringify(credentials), {headers: headers})
-          .subscribe(res => {
-            resolve(res.json());
-          }, (err) => {
-            console.log(err);
-          });
+  constructor(public auth$: AngularFireAuth, private platform: Platform, public face: Facebook) {
+    this.authState = auth$.getAuth();
+    auth$.subscribe((state: FirebaseAuthState) => {
+      this.authState = state;
     });
   }
 
-  register(data) {
-    return new Promise((resolve, reject) => {
-        let headers = new Headers();
-        headers.append('Content-Type', 'application/json');
+  get authenticated(): boolean {
+    return this.authState !== null;
+  }
 
-        this.http.post(apiUrl+'auth', JSON.stringify(data), {headers: headers})
-          .subscribe(res => {
-            resolve(res.json());
-          }, (err) => {
-            reject(err);
-          });
+  signInWithFacebook(): firebase.Promise<any> {
+    if (this.platform.is('cordova')) {
+      return this.face.login(['email', 'public_profile']).then(res => {
+        const facebookCredential = firebase.auth.FacebookAuthProvider.credential(res.authResponse.accessToken);
+        return firebase.auth().signInWithCredential(facebookCredential);
+      });
+    } else {
+      return this.auth$.login({
+        provider: AuthProviders.Facebook,
+        method: AuthMethods.Popup
+      });
+    }
+
+  }
+
+  signInWithEmail(user, password): firebase.Promise<FirebaseAuthState> {
+    return this.auth$.login({
+      email: user,
+      password: password,
+    },
+    {
+      provider: AuthProviders.Password,
+      method: AuthMethods.Password,
     });
   }
 
-  logout(){
-    return new Promise((resolve, reject) => {
-        let headers = new Headers();
-        headers.append('X-Auth-Token', localStorage.getItem('token'));
-
-        this.http.post(apiUrl+'auth/sign_out', {}, {headers: headers})
-          .subscribe(res => {
-            localStorage.clear();
-          }, (err) => {
-            reject(err);
-          });
-    });
+  signOut(): firebase.Promise<void> {
+    return this.auth$.logout();
   }
 
+  displayName(): string {
+    if (this.authState != null) {
+      return this.authState.auth.displayName;
+    } else {
+      return '';
+    }
+  }
 }

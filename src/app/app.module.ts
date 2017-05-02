@@ -17,6 +17,17 @@ import { AuthService } from '../providers/auth-service';
 import { LoginPage } from '../pages/login/login';
 import { RegisterPage } from '../pages/register/register';
 import { IonicStorageModule } from '@ionic/storage';
+import { AngularFireModule } from 'angularfire2';
+import { Facebook } from '@ionic-native/facebook';
+
+export const firebaseConfig = {
+  apiKey: "AIzaSyDw5CgVFtFtK14tip3_GoBr_e2taJjY7ok",
+  authDomain: "menufinder-c2e42.firebaseapp.com",
+  databaseURL: "https://menufinder-c2e42.firebaseio.com",
+  storageBucket: "menufinder-c2e42.appspot.com",
+  messagingSenderId: '864254378271'
+};
+
 
 @NgModule({
   declarations: [
@@ -34,7 +45,8 @@ import { IonicStorageModule } from '@ionic/storage';
     BrowserModule,
     HttpModule,
     IonicModule.forRoot(MyApp),
-    IonicStorageModule.forRoot()
+    IonicStorageModule.forRoot(),
+    AngularFireModule.initializeApp(firebaseConfig)
   ],
   bootstrap: [IonicApp],
   entryComponents: [
@@ -54,6 +66,7 @@ import { IonicStorageModule } from '@ionic/storage';
     EstablishmentService,
     ProductService,
     AuthService,
+    Facebook,
     {provide: ErrorHandler, useClass: IonicErrorHandler}
   ]
 })

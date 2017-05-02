@@ -17,13 +17,6 @@ export class TabsPage {
   tab2Root = ProductsPage;
   tab3Root = HomePage;
 
-  constructor(public navCtrl: NavController, storage: Storage) {
-    storage.ready().then(() => {
-       storage.get('token').then((val) => {
-         if(!val){
-         navCtrl.setRoot(LoginPage);
-         }
-      })
-     });
+  constructor(){
   }
 }
