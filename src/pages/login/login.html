@@ -1,20 +1,9 @@
+<ion-header>
+  <ion-navbar>
+    <ion-title>Login</ion-title>
+  </ion-navbar>
+</ion-header>
 <ion-content padding>
-  <h2>Please, Login</h2>
-  <form (submit)="doLogin()">
-    <ion-item>
-      <ion-label stacked>Email</ion-label>
-      <ion-input [(ngModel)]="loginData.email" name="email" type="text" placeholder="Email" ></ion-input>
-    </ion-item>
-    <ion-item>
-      <ion-label stacked>Password</ion-label>
-      <ion-input [(ngModel)]="loginData.password" name="password" type="password" placeholder="Password"></ion-input>
-    </ion-item>
-    <button ion-button block type="submit">
-      Login
-    </button>
-  </form>
-
-  <button ion-button block clear (click)="register()">
-    Dont´t have an account? Register Now
-  </button>
+  <h2>Welcome, please login</h2>
+  <button ion-button outline (click)="signInWithFacebook()">Facebook</button>
 </ion-content>
