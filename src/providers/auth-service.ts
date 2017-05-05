@@ -37,16 +37,22 @@ export class AuthService {
 
   }
 
-  signInWithEmail(user, password): firebase.Promise<FirebaseAuthState> {
-    return this.auth$.login({
-      email: user,
-      password: password,
-    },
-    {
-      provider: AuthProviders.Password,
-      method: AuthMethods.Password,
+  signwithEmail(email: string, password: string): firebase.Promise<any> {
+    return firebase.auth().signInWithEmailAndPassword(email, password);
+  }
+
+  signupUser(email: string, password: string): firebase.Promise<any> {
+      return firebase.auth().createUserWithEmailAndPassword(email, password)
+      .then( newUser => {
+          firebase.database().ref('/userProfile').child(newUser.uid)
+          .set({ email: email });
     });
   }
+
+  resetPassword(email: string): firebase.Promise<void> {
+    return firebase.auth().sendPasswordResetEmail(email);
+  }
+
 
   signOut(): firebase.Promise<void> {
     return this.auth$.logout();
