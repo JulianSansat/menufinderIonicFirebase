@@ -1,11 +1,8 @@
 import { Injectable } from '@angular/core';
-import { Http, Headers } from '@angular/http';
 import { AuthProviders, AngularFireAuth, FirebaseAuthState, AuthMethods } from 'angularfire2';
-import 'rxjs/add/operator/map';
+import * as firebase from 'firebase';
 import { Platform } from 'ionic-angular';
 import { Facebook } from '@ionic-native/facebook';
-
-let apiUrl = 'https://sheltered-beyond-67853.herokuapp.com/';
 
 @Injectable()
 export class AuthService {
@@ -37,25 +34,27 @@ export class AuthService {
 
   }
 
-  signwithEmail(email: string, password: string): firebase.Promise<any> {
-    return firebase.auth().signInWithEmailAndPassword(email, password);
-  }
-
-  signupUser(email: string, password: string): firebase.Promise<any> {
-      return firebase.auth().createUserWithEmailAndPassword(email, password)
-      .then( newUser => {
-          firebase.database().ref('/userProfile').child(newUser.uid)
-          .set({ email: email });
+  signInWithEmail(user, password): firebase.Promise<FirebaseAuthState> {
+    return this.auth$.login({
+      email: user,
+      password: password,
+    },
+    {
+      provider: AuthProviders.Password,
+      method: AuthMethods.Password,
     });
   }
 
-  resetPassword(email: string): firebase.Promise<void> {
-    return firebase.auth().sendPasswordResetEmail(email);
-  }
-
-
   signOut(): firebase.Promise<void> {
     return this.auth$.logout();
+  }
+
+  signupUser(email: string, password: string): firebase.Promise<any> {
+    return firebase.auth().createUserWithEmailAndPassword(email, password).then((newUser) => {
+      firebase.database().ref('/userProfile').child(newUser.uid).set({
+          email: email
+      });
+    });
   }
 
   displayName(): string {

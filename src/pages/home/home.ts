@@ -11,8 +11,10 @@ import { TabsPage } from '../tabs/tabs';
 })
 export class HomePage {
 
-  constructor(public navCtrl: NavController,af: AngularFire, private _auth: AuthService) {}
+  constructor(public navCtrl: NavController, private _app: App,af: AngularFire, private _auth: AuthService) {}
     logout() {
-      this._auth.signOut().then((success) => this.navCtrl.setRoot(TabsPage));
+      this._auth.signOut().then( () => {
+        this._app.getRootNav().setRoot(LoginPage);
+      });
     }
 }

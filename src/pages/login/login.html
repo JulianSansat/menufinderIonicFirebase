@@ -9,7 +9,7 @@
 <ion-content padding>
   <img src="http://placehold.it/300x100">
 
-  <form [formGroup]="loginForm" (submit)="loginUser()" novalidate>
+  <form [formGroup]="loginForm" (submit)="loginWithEmail()" novalidate>
 
     <ion-item>
       <ion-label stacked>Email</ion-label>
@@ -36,7 +36,7 @@
     </button>
 
   </form>
-  <button ion-button outline (click)="signInWithFacebook()">Facebook</button>
+  <button ion-button outline (click)="loginWithFacebook()">Facebook</button>
 
   <button ion-button block clear (click)="goToSignup()">
     Create a new account

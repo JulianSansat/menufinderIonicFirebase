@@ -1,21 +1,16 @@
 import { Component } from '@angular/core';
 import {
-  IonicPage, 
   Loading,
   LoadingController, 
   NavController,
   AlertController } from 'ionic-angular';
 import { FormBuilder, Validators, FormGroup } from '@angular/forms';
-import { EmailValidator } from '../../validators/email';
+import { EmailValidator } from '../../app/validators/email';
 import { AuthService } from '../../providers/auth-service';
 import { TabsPage } from '../tabs/tabs';
 import { RegisterPage } from '../register/register';
 import { Storage } from '@ionic/storage';
 import { AngularFire, FirebaseListObservable } from 'angularfire2';
-
-@IonicPage({
-  name: 'login'
-})
 
 @Component({
   selector: 'page-login',
@@ -24,6 +19,7 @@ import { AngularFire, FirebaseListObservable } from 'angularfire2';
 export class LoginPage {
   public loginForm:FormGroup;
   public loading:Loading;
+  private user = {}
 
   constructor(public navCtrl: NavController, 
     public loadingCtrl: LoadingController, public alertCtrl: AlertController, 
@@ -36,20 +32,22 @@ export class LoginPage {
       });
     }
 
-  goToSignup(): void {}
+  goToSignup(){
+    this.navCtrl.push(RegisterPage);
+  }
 
   goToResetPassword(): void {}  
   
-  signInWithFacebook(): void {
+  loginWithFacebook(): void {
     this.authProvider.signInWithFacebook()
       .then(() => this.onSignInSuccess());
   }
 
-  loginUser(): void {
+  public loginWithEmail(): void {
   if (!this.loginForm.valid){
     console.log(this.loginForm.value);
   } else {
-    this.authProvider.loginUser(this.loginForm.value.email, 
+    this.authProvider.signInWithEmail(this.loginForm.value.email, 
         this.loginForm.value.password)
     .then( authData => {
       this.loading.dismiss().then( () => {
